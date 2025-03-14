@@ -1,16 +1,16 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommentService } from '../../services/comment/comment.service';
 import { Comment } from '../../interfaces/comment';
-import { DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
+import { DATE_PIPE_DEFAULT_OPTIONS, DatePipe, NgClass } from '@angular/common';
 import as from '@angular/common/locales/as';
 
 
 
 @Component({
   selector: 'app-moderation',
-  imports: [DatePipe],
+  imports: [DatePipe, NgClass],
   templateUrl: './moderation.component.html',
-  styleUrl: './moderation.component.css'
+  styleUrls: ['./moderation.component.css']
 })
 export class ModerationComponent implements OnInit {
   commentService = inject(CommentService);
@@ -64,4 +64,3 @@ export class ModerationComponent implements OnInit {
     });
   }
 }
-

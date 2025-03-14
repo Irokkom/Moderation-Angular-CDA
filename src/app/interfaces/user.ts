@@ -1,3 +1,5 @@
+import { Article } from "./article";  
+
    export interface User {
     id: number;
     email: string;

@@ -1,36 +1,50 @@
-<p>moderation works!</p>
+<div class="moderation-container">
+  <div class="header">
+    <h1>Tableau de modération</h1>
+    <p class="subtitle">Gérez les commentaires des utilisateurs</p>
+  </div>
 
-<table>
-    <thead>
+  <div class="table-container">
+    <table class="moderation-table">
+      <thead>
         <tr>
-            <th>Id</th>
-            <th>Content</th>
-            <th>Author</th>
-            <th>Article</th>
-            <th>Created At</th>
-            <th>Actions</th>
+          <th>Id</th>
+          <th>Content</th>
+          <th>Author</th>
+          <th>Article</th>
+          <th>Created At</th>
+          <th>Actions</th>
         </tr>
-    </thead>
-    <tbody>
-@for (comment of comments(); track comment.id)
-{
-    <tr>
-        <td>{{ comment.id}}</td>
-        <td>{{ comment.content }}</td>
-        <td>{{ comment.article.id }}</td>
-        <td>{{ comment.commentAuthor}}</td>
-        <td>{{ comment.createdAt|date:'dd/MM/yyyy'}}</td>
-        <td>
-            <button (click)="deleteComment(comment.id)">Delete</button>
+      </thead>
+      <tbody>
+        @for (comment of comments(); track comment.id) {
+        <tr>
+          <td class="id-cell">{{ comment.id }}</td>
+          <td class="content-cell">{{ comment.content }}</td>
+          <td>{{ comment.author?.username || 'Anonyme' }}</td>
+          <td>{{ comment.article.id }}</td>
+          <td>{{ comment.createdAt | date:'dd/MM/yyyy' }}</td>
+          <td class="actions-cell">
+            <div class="action-buttons">
+              <button class="btn delete-btn" (click)="deleteComment(comment.id)">
+                <i class="delete-icon"></i>Supprimer
+              </button>
+              <select 
+                class="status-select" 
+                [ngClass]="{'approved': comment.status === 'approved', 'rejected': comment.status === 'rejected'}"
+                (change)="updateComment(comment.id, $event)">
+                <option value="approved">Approuvé</option>
+                <option value="rejected">Rejeté</option>
+              </select>
+            </div>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 
-            <!-- <button>Approve</button> -->
-            <select (change)="updateComment(comment.id, $event)">
-                <option value="approved">Approved</option>
-                <option value="rejected">Rejected</option>
-            </select>
-        </td>
-    </tr>
-
-}
-    </tbody>
-</table>
+  <div class="footer">
+    <p>Total: {{ comments().length }} commentaires</p>
+  </div>
+</div>
